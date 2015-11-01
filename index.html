@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="vendor/revealjs/css/reveal.css">
+    <link rel="stylesheet" href="vendor/revealjs/css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="vendor/revealjs/lib/css/zenburn.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+    <style>
+        .reveal, .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+            text-transform: none;
+        }
+        small, h1 small, h2 small, h3 small {
+            opacity: 0.2;
+        }
+        .reveal pre code {
+            max-height: 500px;
+        }
+        .reveal section img.clean-img {
+            width: 35%;
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+
+</head>
+<body>
+
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+        <section>
+            <h1>TypeScript</h1>
+            <p>Зачем, почему и что мне с того</p>
+        </section>
+
+        <section>
+            <h2>Что это?</h2>
+            <ul>
+                <li>Суперсет JavaScript'а</li>
+                <li>Создан для упрощения разработки и поддержки больших проектов</li>
+                <li>На выходе компилируется в JavaScript <small>(куда же он денется)</small></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Зачем это нужно? <small>(коротенечко)</small></h2>
+            <ul>
+                <li>Используем синтаксис и фичи ES2015 (+ часть ES2016)</li>
+                <li>Работа с типами упрощает отлов багов до того, как они попадут в консоль браузера</li>
+                <li>Типы и интерфейсы упрощают работу IDE - подсказок больше ^_^</li>
+            </ul>
+            <p class="fragment">
+                Побочный эффект введения - фронтендеры будут жаловаться на "надоевшие" ошибки типирования.
+            </p>
+        </section>
+
+        <section>
+            <h2>Вложенность языков</h2>
+            <img class="clean-img" src="img/typescript-es6-es5.svg" />
+        </section>
+
+        <section>
+            <h2>Примеры типов</h2>
+            <pre><code style="word-wrap: break-word;">
+                interface IAttribute {
+                    name: string;
+                    value: string;
+                }
+
+                interface IShape {
+                    name: string;
+                    width: number;
+                    height: number;
+                    color?: string;
+                    attributes: IAttribute[];
+                }
+
+                var foo: number;
+                var boo: boolean;
+                var arr: string[];
+                var bar: IShape;
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Generics</h2>
+            <pre><code>
+interface IPromise&lt;T&gt; {
+    then&lt;TResult&gt;(
+        successCallback: (promiseValue: T) => any,
+        errorCallback?: (reason: any) => any,
+        notifyCallback?: (state: any) => any
+    ): IPromise&lt;TResult&gt;;
+
+    catch&lt;TResult&gt;(
+        onRejected: (reason: any) => any;
+    ): IPromise&lt;TResult&gt;;
+
+    finally(
+        finallyCallback: () => any
+    ): IPromise&lt;T&gt;;
+}
+            </code></pre>
+        </section>
+
+        <section>
+            <pre><code>
+public getProjects(): angular.IPromise&lt;IProject[]&gt; {
+    let deferred: angular.IDeferred&lt;IProject[]&gt; = this.$q.defer();
+
+    this.$q.all([
+        this.projectsLoadingPromise,
+        this.tasksService.getTasksLoadingPromise()
+    ]).then(
+        (projects) => deferred.resolve(projects),
+        (error) => deferred.reject(error)
+    );
+
+    return deferred.promise;
+}
+            </code></pre>
+        </section>
+
+        <section>
+            <h1>Холивары!</h1>
+        </section>
+
+        <section>
+            <h2>Typescript vs Coffee</h2>
+            <ul>
+                <li>Валидный JS, валиден и для TS</li>
+                <li>TS это тот же JS, только с типированием</li>
+            </ul>
+            <p class="fragment">
+                Не зная TS, можно понять о чем речь смотря на код. В случае c CS это не так очевидно.
+            </p>
+        </section>
+
+        <section>
+            <img src="img/ts-vs-coffee.png" />
+        </section>
+
+        <section>
+            <h2>Typescript vs Babel</h2>
+            <ul>
+                <li>Оба поддерживают почти весь синтаксис ES6 (Babel поддерживает больше)</li>
+                <li>Оба поддерживают модули через сторонние библиотеки: common, amd, system</li>
+                <li>Оба начинают внедрять ES7: Decorators</li>
+            </ul>
+            <p class="fragment">
+                У обоих есть будущее в поддержке следующих стандартов ECMAScript'а
+            </p>
+        </section>
+
+        <section>
+            <h2>Typescript &#10084;</h2>
+            <p>
+                Однако Typescript в более выгодном положении
+            </p>
+            <ul class="fragment">
+                <li>Microsoft <small><i class="fa fa-usd"></i><i class="fa fa-usd"></i><i class="fa fa-usd"></i></small></li>
+                <li>Typescript активно сотрудничает с разработчиками JS библиотек: Angular, Ember</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Typescript для больших проектов</h2>
+            <ul>
+                <li>Ловим ошибки на стадии компиляции</li>
+                <li>Компилятор заставит писать более качественный код</li>
+                <li><u>Весь</u> код валидируется при компиляции</li>
+                <li>Как следствие - при рефакторинге проще ловятся ошибки</li>
+                <li>Для все основных библиотек уже есть файлы с описанием типов</li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+
+
+<script src="vendor/revealjs/lib/js/head.min.js"></script>
+<script src="vendor/revealjs/js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            { src: 'vendor/revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'vendor/revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'vendor/revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'vendor/revealjs/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'vendor/revealjs/plugin/notes/notes.js', async: true }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
